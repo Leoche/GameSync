@@ -2,13 +2,12 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var autoprefixer = require('autoprefixer-stylus');
 var browserSync = require('browser-sync').create();
-var nodemon = require('gulp-nodemon');
 
 var paths = {
   scripts: ['src/js/libs/*','src/js/main.js'],
   htmls: 'src/*.html',
   images: 'src/imgs/**/*',
-  styles:'src/css/*',
+  styles:['src/css/libs/*','src/css/main.css'],
 };
 
 gulp.task('images', function(){
