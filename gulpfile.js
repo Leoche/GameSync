@@ -18,11 +18,6 @@ gulp.task('images', function(){
 
 gulp.task('styles', function(){
   return gulp.src(paths.styles)
-      .pipe($.plumber())
-    .pipe($.stylus({
-      compress: true,
-	  use: [autoprefixer('> 5%')]
-    }))
     .pipe($.concat('style.min.css'))
     .pipe(gulp.dest('dist/css'))
   .pipe(browserSync.stream());
