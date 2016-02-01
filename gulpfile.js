@@ -19,6 +19,7 @@ gulp.task('images', function(){
 gulp.task('styles', function(){
   return gulp.src(paths.styles)
     .pipe($.concat('style.min.css'))
+    .pipe($.csso())
     .pipe(gulp.dest('dist/css'))
   .pipe(browserSync.stream());
 });
