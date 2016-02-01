@@ -26,6 +26,7 @@ gulp.task('styles', function(){
 
 gulp.task('htmls', function(){
   return gulp.src(paths.htmls)
+      .pipe($.htmlmin({collapseWhitespace: true}))
       .pipe(gulp.dest('dist'))
     .pipe(browserSync.stream());
 });
