@@ -21,6 +21,21 @@ jQuery(function($){
 		$("#panes").animate({
 			left: -num*390
 		});
-		console.log("dr");
+	});
+	$("#mod").change(function(e){
+		e.preventDefault();
+		var form = document.forms.namedItem("upload");
+
+		console.log(e);
+		var xhr = new XMLHttpRequest();
+		xhr.addEventListener("load", function(e){
+			console.log("complete");
+		});
+		xhr.addEventListener("progress", function(e){
+			var percent = Math.round(e.loaded/e.total * 100);
+			console.log(percent+"%");
+		});
+		xhr.open("POST","api/mods",true);
+		xhr.send(new FormData(form));
 	});
 });

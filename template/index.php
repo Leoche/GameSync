@@ -1,3 +1,7 @@
+<?php 
+$server = new Server(SERVER_URI, SERVER_PORT);
+$stats = Stats::retrieve($server);
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,16 +9,16 @@
 	<title>LSync</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="css/style.min.css">
+	<link rel="stylesheet" href="<?= WEBROOT ?>css/style.min.css">
 </head>
 <body>
 	<div id="background"></div>
 	<div id="main" class="opened">
 		<div id="logo"></div>
 		<div id="content">
-			<div id="status">
-				<div class="title">ONLINE</div>
-				<div class="subtitle">12/128 JOUEURS</div>
+			<div id="status" class="<?=($stats->is_online)?"online":"offline" ?>">
+				<div class="title"><?=($stats->is_online)?"ONLINE":"OFFLINE" ?></div>
+				<div class="subtitle"><?=($stats->is_online)?$stats->online_players."/".$stats->max_players." JOUEURS":"" ?></div>
 			</div>
 			<div id="menu">
 				<a data-tab="pane-1" class="active">Status</a>
@@ -71,7 +75,7 @@
 						<li>LegacyJavaFixer.zip<a href=""><i class="fa fa-times"></i></a></li>
 					</ul>
 					<div class="botbar">
-						<form action="">
+						<form action="" name="upload">
 							<label for="mod" class="button pull-left">Uploader un mod</label>
 							<input type="file" name="mod" id="mod" />
 						</form>
@@ -85,20 +89,16 @@
 					</div>
 				</div>
 			</div>
-		<!-- <form action="#">
-			<label for="email">Adresse Email</label><br/>
-			<input type="text" id="email" name="email" />
-			<div class="spacer"></div>
-			<label for="pass">Mot de passe</label><br/>
-			<input type="password" id="pass" name="pass" />
-			<div class="spacer"></div>
-			<div class="spacer"></div>
-			<div class="spacer"></div>
-			<div class="spacer"></div>
-			<input type="submit" value="Connexion">
-		</form> -->
 		</div>
 	</div>
-	<script src="js/script.min.js"></script>
+	<script src="<?= WEBROOT ?>js/jQuery.js"></script>
+	<script src="<?= WEBROOT ?>js/main.js"></script>
+	<?php $session = $GLOBALS["session"]; if($session->hasFlashes()): $flashes = $session->getFlashes(); ?>
+	<script>
+		jQuery(function($){
+			humane.log("<?= $flashes["info"] ?>");
+		});
+	</script>
+	<?php endif; ?>
 </body>
 </html>
