@@ -4,11 +4,8 @@ require("libs/Auth.php");
 require("libs/Router.php");
 require("libs/Route.php");
 require("libs/Config.php");
-require("libs/MCServerStatus.php");
 define("ROOT",'http://'.$_SERVER['HTTP_HOST'].str_replace("index.php", "", $_SERVER["PHP_SELF"]));
 define("WEBROOT",ROOT."template/");
-define("SERVER_URI","red.nationsglory.fr");
-define("SERVER_PORT",25565);
 
 $config = Config::getInstance();
 $session = Session::getInstance();
@@ -23,6 +20,8 @@ $router->get('', function(){
 		die();
 	}else require("template/index.php");
 });
+
+/* AUTH */
 $router->get('logout', function(){
 	$auth = $GLOBALS["auth"];
 	$auth->logout();
@@ -43,6 +42,8 @@ $router->post('login', function(){
 	}else $session->setFlash("info","Identifiants incorrects");
 	require("template/login.php");
 });
+
+/* WHITELIST */
 $router->get('/api/whitelist', function(){
 	$auth = $GLOBALS["auth"];
 	if(!$auth->isConnected()){
@@ -59,9 +60,25 @@ $router->post('/api/whitelist/:entry', function($entry){
 		die();
 	}
 	$config = $GLOBALS["config"];
-	$newwhitelist = Config::getInstance()->get("whitelist");
-	$newwhitelist[] = $entry;
-	$config->set("whitelist",$newwhitelist);
+	$newwhitelist = $config->get("whitelist");
+	if(!in_array($entry, $newwhitelist)){
+		$newwhitelist[] = $entry;
+		$config->set("whitelist",$newwhitelist);
+	} echo json_encode(array("code"=>"200"));
+});
+$router->post('/api/whitelist/:folder/:entry', function($folder, $entry){
+	$auth = $GLOBALS["auth"];
+	$entry = $folder."/".$entry;
+	if(!$auth->isConnected()){
+		header("Location: ".ROOT."login");
+		die();
+	}
+	$config = $GLOBALS["config"];
+	$newwhitelist = $config->get("whitelist");
+	if(!in_array($entry, $newwhitelist)){
+		$newwhitelist[] = $entry;
+		$config->set("whitelist",$newwhitelist);
+	} echo json_encode(array("code"=>"200"));
 });
 $router->delete('/api/whitelist/:entry', function($entry){
 	$auth = $GLOBALS["auth"];
@@ -71,7 +88,21 @@ $router->delete('/api/whitelist/:entry', function($entry){
 		if($item == $entry)
 			array_splice($newwhitelist,$i,1);
 	$config->set("whitelist",$newwhitelist);
+	echo json_encode(array("code"=>"200"));
 });
+$router->delete('/api/whitelist/:folder/:entry', function($folder, $entry){
+	$auth = $GLOBALS["auth"];
+	$config = $GLOBALS["config"];
+	$entry = $folder."/".$entry;
+	$newwhitelist = Config::getInstance()->get("whitelist");
+	foreach($newwhitelist as $i=>$item)
+		if($item == $entry)
+			array_splice($newwhitelist,$i,1);
+	$config->set("whitelist",$newwhitelist);
+	echo json_encode(array("code"=>"200"));
+});
+
+/* MODS */
 $router->get('/api/mods', function(){
 	$auth = $GLOBALS["auth"];
 	if(!$auth->isConnected()){
@@ -121,7 +152,38 @@ $router->post("/api/mods" , function(){
 		header("Location: ".ROOT."login");
 		die();
 	}
-	$extensions = array(".jar",".zip",".txt",".json");
+	$extensions = array("jar","zip","txt","json");
+	if(isset($_FILES) && isset($_FILES["mod"])){
+		$file = $_FILES["mod"];
+		$file["name"] = strtolower($file["name"]);
+		if(in_array(pathinfo($file["name"], PATHINFO_EXTENSION), $extensions)){
+			if(move_uploaded_file($file["tmp_name"], "gamefiles/mods/".$file["name"]))
+				echo json_encode(array("code"=>"200"));
+			else 
+				echo json_encode(array("code"=>"403"));
+		}else echo json_encode(array("code"=>"500"));
+	}else echo json_encode(array("code"=>"401"));
 });
 
+/* STATUS */
+$router->get("/api/status", function(){
+	$auth = $GLOBALS["auth"];
+	if(!$auth->isConnected()){
+		header("Location: ".ROOT."login");
+		die();
+	}
+	$config = $GLOBALS["config"];
+	echo json_encode($config->get("online"));
+});
+$router->post("/api/status/:bool", function($bool){
+	$auth = $GLOBALS["auth"];
+	if(!$auth->isConnected()){
+		header("Location: ".ROOT."login");
+		die();
+	}
+	$config = $GLOBALS["config"];
+	if(intval($bool) == 1) $bool = true;
+	else $bool = false;
+	$config->set("online",$bool);
+});
 $router->run();

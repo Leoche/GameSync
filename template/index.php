@@ -1,7 +1,3 @@
-<?php 
-$server = new Server(SERVER_URI, SERVER_PORT);
-$stats = Stats::retrieve($server);
- ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,10 +12,7 @@ $stats = Stats::retrieve($server);
 	<div id="main" class="opened">
 		<div id="logo"></div>
 		<div id="content">
-			<div id="status" class="<?=($stats->is_online)?"online":"offline" ?>">
-				<div class="title"><?=($stats->is_online)?"ONLINE":"OFFLINE" ?></div>
-				<div class="subtitle"><?=($stats->is_online)?$stats->online_players."/".$stats->max_players." JOUEURS":"" ?></div>
-			</div>
+			<a href="logout" id="logout" class="button">Logout <i class="fa fa-power-off" style="font-size: 12px;"></i></a>
 			<div id="menu">
 				<a data-tab="pane-1" class="active">Status</a>
 				<a data-tab="pane-2">Whitelist</a>
@@ -28,9 +21,9 @@ $stats = Stats::retrieve($server);
 			</div>
 			<div id="panes">
 				<div id="pane-1" class="pane">
-						 <div id="line1" class="line"></div>
-						  <div id="line2" class="line"></div>
-						  <div id="line3" class="line"></div>
+					<div id="line1" class="line"></div>
+					<div id="line2" class="line"></div>
+					<div id="line3" class="line"></div>
 					<div class="padded">
 						<div class="spacer"></div>
 						<h1 class="hero">LSync est en ligne</h1>
@@ -38,45 +31,22 @@ $stats = Stats::retrieve($server);
 					</div>
 				</div>
 				<div id="pane-2" class="pane">
-					<ul>
-						<li>mods/Optifine.jar<a href=""><i class="fa fa-times"></i></a></li>
-						<li>launcher.settings<a href=""><i class="fa fa-times"></i></a></li>
-						<li>options.txt<a href=""><i class="fa fa-times"></i></a></li>
-						<li>server.dat<a href=""><i class="fa fa-times"></i></a></li>
+					<ul id="white-list">
 					</ul>
 					<div class="botbar">
 						<form action="" class="form-group">
 							<input type="text" name="whitelist" id="whitelist" placeholder="mods/Optifine.jar"/>
-							<input type="submit" value="+">
+							<input type="submit" value="+" id="add-whitelist">
 						</form>
-						<a href="" id="refresh-mods" class="button square pull-right"><i class="fa fa-refresh"></i></a>
+						<a href="" id="refresh-whitelists" class="button square pull-right"><i class="fa fa-refresh"></i></a>
 					</div>
 				</div>
 				<div id="pane-3" class="pane">
-					<ul>
-						<li>LegacyJavaFixer.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>Chisel.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>furniture.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>Flansmod.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>LegacyJavaFixer.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>LegacyJavaFixer.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>Chisel.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>furniture.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>Flansmod.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>LegacyJavaFixer.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>LegacyJavaFixer.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>Chisel.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>furniture.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>Flansmod.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>LegacyJavaFixer.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>LegacyJavaFixer.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>LegacyJavaFixer.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>LegacyJavaFixer.zip<a href=""><i class="fa fa-times"></i></a></li>
-						<li>LegacyJavaFixer.zip<a href=""><i class="fa fa-times"></i></a></li>
+					<ul id="mod-list">
 					</ul>
 					<div class="botbar">
-						<form action="" name="upload">
-							<label for="mod" class="button pull-left">Uploader un mod</label>
+						<form action="" name="upload" id="upload">
+							<label for="mod" id="modupload-label" class="button pull-left">Uploader un mod</label>
 							<input type="file" name="mod" id="mod" />
 						</form>
 						<a href="" id="refresh-mods" class="button square pull-right"><i class="fa fa-refresh"></i></a>
