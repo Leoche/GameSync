@@ -24,13 +24,13 @@ class Router {
 	}
 	public function run(){
 	    if(!isset($this->routes[$_SERVER['REQUEST_METHOD']])){
-	        throw new RouterException('REQUEST_METHOD does not exist');
+	    	header("HTTP/1.0 404 Not Found");
 	    }
 	    foreach($this->routes[$_SERVER['REQUEST_METHOD']] as $route){
 	        if($route->match($this->url)){
 	            return $route->call();
 	        }
 	    }
-	    throw new RouterException('No matching routes');
+	    header("HTTP/1.0 404 Not Found");
 	}
 }
