@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="<?= WEBROOT ?>css/style.min.css">
+	<link rel="icon" type="image/png" href="<?= WEBROOT ?>/imgs/favicon.png" />
 </head>
 <body>
 	<div id="background"></div>
