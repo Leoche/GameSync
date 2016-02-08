@@ -32,6 +32,7 @@ class Config{
     public function __construct(){
 		if(file_exists($this->file_url)) $this->config = json_decode(file_get_contents($this->file_url));
 		else{
+			$this->default["id"] = $this->generate_key_string();
 			$this->config = $this->default;
 			$this->save();
 		}
@@ -52,5 +53,21 @@ class Config{
 	}
 	public function webroot(){
 		return "./template/";
+	}
+	public function generate_key_string() {
+	    $tokens = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	    $segment_chars = 5;
+	    $num_segments = 4;
+	    $key_string = '';
+	 
+	    for ($i = 0; $i < $num_segments; $i++) {
+	        $segment = '';
+	        for ($j = 0; $j < $segment_chars; $j++)
+	                $segment .= $tokens[rand(0, 35)];
+	        $key_string .= $segment;
+	        if ($i < ($num_segments - 1))
+	                $key_string .= '-';
+	    }
+	    return $key_string;
 	}
 }
