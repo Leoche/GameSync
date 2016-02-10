@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>LSync</title>
+	<title>GameSync</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="<?= WEBROOT ?>css/style.min.css">
@@ -27,7 +27,7 @@
 					<div id="line3" class="line"></div>
 					<div class="padded">
 						<div class="spacer"></div>
-						<h1 class="hero">LSync est en ligne</h1>
+						<h1 class="hero">GameSync est en ligne</h1>
 						<a href="" class="button" id="maintenance">Activer la maintenance</a>
 					</div>
 				</div>
@@ -55,14 +55,25 @@
 				</div>
 				<div id="pane-4" class="pane">
 					<div class="padded">
-						<h1>Ttile</h1>
-						<p>"God bless ye," he seemed to half sob and half shout. "God bless ye, men. Steward! go draw the great measure of grog. But what's this long face about, Mr. Starbuck; wilt thou not chase the white whale? art not game for Moby Dick?"</p>
+						<h1>GameSync</h1>
+						<p>GameSync est un outil de déploiement multiplateforme permettant une syncronisation sécurisé entre un logiciel client et un serveur mère.</p>
+						<p>Le coté serveur de GameSync est Open Source et disponible sur <a href="https://github.com/Leoche/GameSync" target="_blank">Github</a> à tous le monde sous license <a href="https://opensource.org/licenses/mit-license.php" target="_blank">MIT</a>.</p>
+						<p>Contact: <a href="http://leoche.org/" target="_blank">Leoche</a></p>
+						<div class="spacer"></div>
+						<p style="text-align: center;"><script async src="js/paypal-button.min.js?merchant=leode.sigaux@gmail.com" 
+					data-button="donate"
+					data-currency="EUR"
+					data-style="secondary"
+					data-type="form"
+					data-callback=""
+				    data-name="Donation"
+					></script></p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script src="<?= WEBROOT ?>js/jQuery.js"></script>
+	<script src="<?= WEBROOT ?>js/libs.js"></script>
 	<script src="<?= WEBROOT ?>js/main.js"></script>
 	<?php $session = $GLOBALS["session"]; if($session->hasFlashes()): $flashes = $session->getFlashes(); ?>
 	<script>

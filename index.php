@@ -1,4 +1,5 @@
 <?php
+$time_start = microtime();
 require("libs/Session.php");
 require("libs/Auth.php");
 require("libs/Router.php");
@@ -185,5 +186,66 @@ $router->post("/api/status/:bool", function($bool){
 	if(intval($bool) == 1) $bool = true;
 	else $bool = false;
 	$config->set("online",$bool);
+});
+
+
+$router->get("/api/status", function(){
+	$auth = $GLOBALS["auth"];
+	if(!$auth->isConnected()){
+		header("Location: ".ROOT."login");
+		die();
+	}
+	$config = $GLOBALS["config"];
+	echo json_encode($config->get("online"));
+});
+$router->get("/api/retrieve",function(){
+	$config = $GLOBALS["config"];
+	$headers = getallheaders();
+	if(!isset($headers["GameSync-Id"]) || $headers["GameSync-Id"] != $config->get("id")) die(json_encode(array("code"=>"401")));
+	$files = array();
+	foreach(scandir("gamefiles") as $f){
+		if($f != "." && $f != ".."){
+			if(is_dir("gamefiles/".$f)){
+				foreach(scandir("gamefiles/".$f) as $g)
+					if($g != "." && $g != "..") /****/
+						if(is_dir("gamefiles/".$f."/".$g)){
+							foreach(scandir("gamefiles/".$f."/".$g) as $h)
+								if($h != "." && $h != "..")  /****/
+									if(is_dir("gamefiles/".$f."/".$g."/".$h)){
+										foreach(scandir("gamefiles/".$f."/".$g."/".$h) as $i)
+											if($i != "." && $i != "..")
+												$files[] = array(
+													"name"=> $f."/".$g."/".$h."/".$i,
+													"size"=> filesize("gamefiles/".$f."/".$g."/".$h."/".$i),
+													"md5"=> md5_file("gamefiles/".$f."/".$g."/".$h."/".$i)
+												);
+									}
+									else $files[] = array(
+										"name"=> $f."/".$g,
+										"size"=> filesize("gamefiles/".$f."/".$g."/".$h),
+										"md5"=> md5_file("gamefiles/".$f."/".$g."/".$h)
+									);
+						}
+						else $files[] = array(
+							"name"=> $f."/".$g,
+							"size"=> filesize("gamefiles/".$f."/".$g),
+							"md5"=> md5_file("gamefiles/".$f."/".$g)
+						);
+			}
+			else $files[] = array(
+				"name"=> $f,
+				"size"=> filesize("gamefiles/".$f),
+				"md5"=> md5_file("gamefiles/".$f)
+			);
+		}
+	}
+	$time = microtime() - $GLOBALS["time_start"];
+	$infos = array(
+		"online"=>$config->get("online"),
+		"whitelist"=>$config->get("whitelist"),
+		"infos"=>$files,
+		"exec_time"=>$time
+	);
+	echo json_encode($infos);
 });
 $router->run();

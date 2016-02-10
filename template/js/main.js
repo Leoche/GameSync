@@ -1,6 +1,6 @@
 var ls;
 jQuery(function($){
-	ls = new LSYNC();
+	ls = new GAMESYNC();
 	ls.refreshAll();
 	$("#menu a").click(function(e){
 		e.preventDefault();
@@ -61,10 +61,10 @@ jQuery(function($){
 	});
 });
 
-function LSYNC(){
+function GAMESYNC(){
 	this.online = true;
 }
-LSYNC.prototype.refreshMod = function(){
+GAMESYNC.prototype.refreshMod = function(){
 	$.get("api/mods",function(data){
 		var mods = JSON.parse(data);
 		$("#mod-list").html("");
@@ -72,7 +72,7 @@ LSYNC.prototype.refreshMod = function(){
 			$("#mod-list").append("<li>"+mods[i]+"<a href='#' class='delete-mod' data-mod='"+mods[i]+"'><i class='fa fa-times'></i></a></li>")
 	});
 };
-LSYNC.prototype.deleteMod = function(mod){
+GAMESYNC.prototype.deleteMod = function(mod){
 	$.ajax({
 	  method: "DELETE",
 	  url: "api/mods/"+mod
@@ -84,7 +84,7 @@ LSYNC.prototype.deleteMod = function(mod){
 			ls.refreshMod();
 	});
 };
-LSYNC.prototype.refreshWhitelist = function(){
+GAMESYNC.prototype.refreshWhitelist = function(){
 	$.get("api/whitelist",function(data){
 		var whitelists = JSON.parse(data);
 		$("#white-list").html("");
@@ -92,13 +92,13 @@ LSYNC.prototype.refreshWhitelist = function(){
 			$("#white-list").append("<li>"+whitelists[i]+"<a href='#' class='delete-whitelist' data-whitelist='"+whitelists[i]+"'><i class='fa fa-times'></i></a></li>")
 	});
 };
-LSYNC.prototype.addWhitelist = function(entry){
+GAMESYNC.prototype.addWhitelist = function(entry){
 	$.post("api/whitelist/"+entry,function(data){
 		$("#whitelist").val("");
 		ls.refreshWhitelist();
 	});
 };
-LSYNC.prototype.deleteWhitelist = function(whitelist){
+GAMESYNC.prototype.deleteWhitelist = function(whitelist){
 	$.ajax({
 	  method: "DELETE",
 	  url: "api/whitelist/"+whitelist
@@ -110,22 +110,22 @@ LSYNC.prototype.deleteWhitelist = function(whitelist){
 			ls.refreshWhitelist();
 	});
 };
-LSYNC.prototype.refreshStatus = function(){
+GAMESYNC.prototype.refreshStatus = function(){
 	$.get("api/status",function(data){
 		data = JSON.parse(data);
 		ls.online = (data == true);
 		if(data == true){
-			$(".hero").html("LSync est en ligne");
+			$(".hero").html("GameSync est en ligne");
 			$("#pane-1").removeClass("offline");
 			$("#maintenance").html("Activer la maintenance");
 		}else{
-			$(".hero").html("LSync est hors ligne");
+			$(".hero").html("GameSync est hors ligne");
 			$("#pane-1").addClass("offline");
 			$("#maintenance").html("Désactiver la maintenance");
 		}
 	});
 };
-LSYNC.prototype.refreshAll = function(){
+GAMESYNC.prototype.refreshAll = function(){
 	this.refreshStatus();
 	this.refreshMod();
 	this.refreshWhitelist();
