@@ -29,6 +29,9 @@ $router->get('logout', function(){
 	header("Location: ".ROOT."login");
 });
 $router->get('login', function(){
+	$config = $GLOBALS["config"];
+	if(!$config->isInitialized())
+		header("Location: ".ROOT."install");
 	$auth = $GLOBALS["auth"];
 	if($auth->isConnected())
 		header("Location: ".ROOT);
@@ -42,6 +45,28 @@ $router->post('login', function(){
 		header("Location: ".ROOT);
 	}else $session->setFlash("info","Identifiants incorrects");
 	require("template/login.php");
+});
+$router->get('install', function(){
+	$config = $GLOBALS["config"];
+	if($config->isInitialized()){ header("Location: ".ROOT); die(); }
+	require("template/install.php");
+});
+$router->post('install', function(){
+	$session = $GLOBALS["session"];
+	$config = $GLOBALS["config"];
+	if($config->isInitialized()){ header("Location: ".ROOT); die(); }
+	if(isset($_POST) && isset($_POST["email"]) && isset($_POST["pass"]) && $_POST["email"] != "" && $_POST["pass"] != ""){
+		if(strlen($_POST["pass"])>3){
+			if(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
+				if($config->init($_POST["email"],$_POST["pass"])){
+					$session->setFlash("info","Installation réussie");
+					header("Location: ".ROOT);
+					die();
+				}
+			}else $session->setFlash("info","Votre adresse email est invalide");
+		}else $session->setFlash("info","Votre mot de passe est trop court");
+	}else $session->setFlash("info","Veuillez remplir tous les champs");
+	require("template/install.php");
 });
 
 /* WHITELIST */

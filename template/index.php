@@ -60,7 +60,8 @@
 						<p>Le coté serveur de GameSync est Open Source et disponible sur <a href="https://github.com/Leoche/GameSync" target="_blank">Github</a> à tous le monde sous license <a href="https://opensource.org/licenses/mit-license.php" target="_blank">MIT</a>.</p>
 						<p>Contact: <a href="http://leoche.org/" target="_blank">Leoche</a></p>
 						<div class="spacer"></div>
-						<p style="text-align: center;"><script async src="js/paypal-button.min.js?merchant=leode.sigaux@gmail.com" 
+						<p style="text-align: center;"><small>License Id: <?= $GLOBALS["config"]->get("id"); ?></small></p>
+						<p style="text-align: center;"><script async src="<?= WEBROOT ?>js/paypal.js?merchant=leode.sigaux@gmail.com" 
 					data-button="donate"
 					data-currency="EUR"
 					data-style="secondary"

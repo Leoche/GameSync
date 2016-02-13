@@ -1,4 +1,4 @@
-var ls;
+﻿var ls;
 jQuery(function($){
 	ls = new GAMESYNC();
 	ls.refreshAll();

@@ -2,12 +2,7 @@
 class Config{
 	private $config = array();
 	private $default = array(
-		"users" => array(
-			array(
-				"email" => "admin@leoche.org",
-				"password" => "0e7eb8233ba5c6e8fbb41f749452519a2d14252c155f4f37a1dcd782c0ca07b4"
-			)
-		),
+		"users" => array(),
 		"online" => true,
 		"whitelist" => array(
 			"mods/Optifine.jar",
@@ -22,6 +17,7 @@ class Config{
 		)
 	);
 	private $file_url = "./config/options.json";
+	private $initialized = false;
     static $instance;
     static function getInstance(){
         if(!self::$instance){
@@ -30,12 +26,23 @@ class Config{
         return self::$instance;
     }
     public function __construct(){
-		if(file_exists($this->file_url)) $this->config = json_decode(file_get_contents($this->file_url));
-		else{
-			$this->default["id"] = $this->generate_key_string();
-			$this->config = $this->default;
-			$this->save();
-		}
+    	if(is_file($this->file_url)){
+    		$this->initialized = true;
+			$this->config = json_decode(file_get_contents($this->file_url));
+    	}
+    }
+    public function init($email,$password){
+		$this->default["id"] = $this->generate_key_string();
+		$this->default["users"][] = array(
+			"email"=>$email,
+			"password"=>hash("SHA256",$password)
+		);
+		$this->config = $this->default;
+		$this->save();
+		return true;
+    }
+    public function isInitialized(){
+    	return $this->initialized;
     }
 	public function save(){
 		if(!file_put_contents($this->file_url, json_encode($this->config)))

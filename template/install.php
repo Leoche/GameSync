@@ -11,19 +11,19 @@
 <body>
 	<div id="background"></div>
 	<div id="main">
-		<div id="logo">GameSync</div>
+		<div id="logo">Installation</div>
 		<div id="content">
-		<form action="login" method="POST" action="">
+		<form action="install" method="POST" action="">
 			<label for="email">Adresse Email</label><br/>
-			<input type="text" id="email" name="email" />
+			<input type="text" id="email" name="email" value="<?= (isset($_POST) && isset($_POST["email"]))?$_POST["email"]:"" ?>"/>
 			<div class="spacer"></div>
 			<label for="pass">Mot de passe</label><br/>
-			<input type="password" id="pass" name="pass" />
+			<input type="text" id="pass" name="pass" value="<?= (isset($_POST) && isset($_POST["pass"]))?$_POST["pass"]:"" ?>"/>
 			<div class="spacer"></div>
 			<div class="spacer"></div>
 			<div class="spacer"></div>
 			<div class="spacer"></div>
-			<input type="submit" value="Connexion">
+			<input type="submit" value="Enregistrer">
 		</form>
 		</div>
 	</div>
