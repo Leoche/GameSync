@@ -226,49 +226,30 @@ $router->get("/api/status", function(){
 $router->get("/api/retrieve",function(){
 	$config = $GLOBALS["config"];
 	$headers = getallheaders();
-	if(!isset($headers["GameSync-Id"]) || $headers["GameSync-Id"] != $config->get("id")) die(json_encode(array("code"=>"401")));
-	$files = array();
-	foreach(scandir("gamefiles") as $f){
-		if($f != "." && $f != ".."){
-			if(is_dir("gamefiles/".$f)){
-				foreach(scandir("gamefiles/".$f) as $g)
-					if($g != "." && $g != "..") /****/
-						if(is_dir("gamefiles/".$f."/".$g)){
-							foreach(scandir("gamefiles/".$f."/".$g) as $h)
-								if($h != "." && $h != "..")  /****/
-									if(is_dir("gamefiles/".$f."/".$g."/".$h)){
-										foreach(scandir("gamefiles/".$f."/".$g."/".$h) as $i)
-											if($i != "." && $i != "..")
-												$files[] = array(
-													"name"=> $f."/".$g."/".$h."/".$i,
-													"size"=> filesize("gamefiles/".$f."/".$g."/".$h."/".$i),
-													"md5"=> md5_file("gamefiles/".$f."/".$g."/".$h."/".$i)
-												);
-									}
-									else $files[] = array(
-										"name"=> $f."/".$g,
-										"size"=> filesize("gamefiles/".$f."/".$g."/".$h),
-										"md5"=> md5_file("gamefiles/".$f."/".$g."/".$h)
-									);
-						}
-						else $files[] = array(
-							"name"=> $f."/".$g,
-							"size"=> filesize("gamefiles/".$f."/".$g),
-							"md5"=> md5_file("gamefiles/".$f."/".$g)
-						);
-			}
-			else $files[] = array(
-				"name"=> $f,
-				"size"=> filesize("gamefiles/".$f),
-				"md5"=> md5_file("gamefiles/".$f)
-			);
-		}
+	if(false) if(!isset($headers["GameSync-Id"]) || $headers["GameSync-Id"] != $config->get("id")) die(json_encode(array("code"=>"401")));
+	function getDirContents($dir, &$results = array()){
+	    $files = scandir($dir);
+
+	    foreach($files as $key => $value){
+	        $path = $dir.DIRECTORY_SEPARATOR.$value;
+	        if(!is_dir($path)) {
+	            $results[] = array(
+					"name"=> str_replace("gamefiles\\", "", $path),
+					"size"=> filesize($path),
+					"md5"=> md5_file($path)
+				);
+	        } else if($value != "." && $value != "..") {
+	            getDirContents($path, $results);
+	        }
+	    }
+
+	    return $results;
 	}
 	$time = microtime() - $GLOBALS["time_start"];
 	$infos = array(
 		"online"=>$config->get("online"),
 		"whitelist"=>$config->get("whitelist"),
-		"infos"=>$files,
+		"infos"=>getDirContents('gamefiles'),
 		"exec_time"=>$time
 	);
 	echo json_encode($infos);
