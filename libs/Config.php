@@ -5,10 +5,7 @@ class Config{
 		"users" => array(),
 		"online" => true,
 		"whitelist" => array(
-			"mods/Optifine.jar",
 			"launcher.settings",
-			"options.php",
-			"options.php",
 			"database/*",
 			"hats/*",
 			"logs/*",
