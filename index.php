@@ -234,7 +234,7 @@ $router->get("/api/retrieve",function(){
 	        $path = $dir.DIRECTORY_SEPARATOR.$value;
 	        if(!is_dir($path)) {
 	            $results[] = array(
-					"name"=> str_replace("gamefiles\\", "", $path),
+					"name"=> str_replace("gamefiles\\", "", str_replace("gamefiles/", "", $path)),
 					"size"=> filesize($path),
 					"md5"=> md5_file($path)
 				);
