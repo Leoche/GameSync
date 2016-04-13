@@ -226,7 +226,7 @@ $router->get("/api/status", function(){
 $router->get("/api/retrieve",function(){
 	$config = $GLOBALS["config"];
 	$headers = getallheaders();
-	if(false) if(!isset($headers["GameSync-Id"]) || $headers["GameSync-Id"] != $config->get("id")) die(json_encode(array("code"=>"401")));
+	if(!isset($headers["GameSync-Id"]) || $headers["GameSync-Id"] != $config->get("id")) die(json_encode(array("code"=>"401")));
 	function getDirContents($dir, &$results = array()){
 	    $files = scandir($dir);
 
