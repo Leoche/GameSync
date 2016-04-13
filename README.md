@@ -1,6 +1,6 @@
 <p align="center">
-![de](//leoche.org/gsdemo/template/imgs/logo.png)
-# GameSync
+	<img src="//leoche.org/gsdemo/template/imgs/logo.png" alt="GameSync Logo"><br/>
+	<h1>GameSync</h1>
 </p>
 
 GameSync is a multiplateform deployment tool that provide a secured syncronisation between client/server with a JSON end-point.
