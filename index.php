@@ -5,7 +5,7 @@ require("libs/Auth.php");
 require("libs/Router.php");
 require("libs/Route.php");
 require("libs/Config.php");
-define("ROOT",'http://'.$_SERVER['HTTP_HOST'].str_replace("index.php", "", $_SERVER["PHP_SELF"]));
+define("ROOT",'//'.$_SERVER['HTTP_HOST'].str_replace("index.php", "", $_SERVER["PHP_SELF"]));
 define("WEBROOT",ROOT."template/");
 
 $config = Config::getInstance();
