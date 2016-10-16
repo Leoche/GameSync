@@ -199,6 +199,14 @@ $router->get("/api/status", function () use ($auth, $config, $session) {
     echo json_encode($config->get("online"));
 });
 $router->get("/api/retrieve", function () use ($auth, $config, $session) {
+    if (!function_exists('getallheaders')) 
+    function getallheaders(){ 
+        $headers = ''; 
+        foreach ($_SERVER as $name => $value) 
+            if (substr($name, 0, 5) == 'HTTP_') 
+                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+        return $headers; 
+    } 
     $headers = getallheaders();
     if (!isset($headers["GameSync-Id"]) || $headers["GameSync-Id"] != $config->get("id")) die(json_encode(array("code" => "401")));
     function getDirContents($dir, &$results = array())
