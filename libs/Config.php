@@ -45,8 +45,8 @@ class Config
 
     public function save()
     {
-        if (!file_put_contents($this->file_url, json_encode($this->config)))
-            throw new Exception("Can't write config.json, make sure /config/ is writable");
+        error_reporting(0);
+        file_put_contents($this->file_url, json_encode($this->config)) or die(json_encode(array("code" => "401")));
     }
 
     public function get($key)

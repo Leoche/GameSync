@@ -103,9 +103,10 @@ GAMESYNC.prototype.deleteWhitelist = function(whitelist){
 	  method: "DELETE",
 	  url: "api/whitelist/"+whitelist
 	}).done(function(data){
-		var response = JSON.parse(data);
-		if(response.code == "401")
-			humane.log("Une erreur s'est produite, vérifier les permissions d'écriture du dossier mods");
+		var res = JSON.parse(data);
+		console.log(res);
+		if(res.code == "401")
+			humane.log("Une erreur s'est produite, vérifier les permissions d'écriture du fichier config/options.json");
 		else 
 			ls.refreshWhitelist();
 	});
