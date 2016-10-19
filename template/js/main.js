@@ -74,7 +74,7 @@ GAMESYNC.prototype.refreshMod = function(){
 		var mods = JSON.parse(data);
 		$("#mod-list").html("");
 		for(var i in mods)
-			$("#mod-list").append("<li>"+mods[i]+"<a href='#' class='delete-mod' data-mod='"+mods[i]+"'><i class='fa fa-times'></i></a></li>")
+			$("#mod-list").append("<li title='"+mods[i]+"'>"+ls.properListItem(mods[i])+"<a href='#' class='delete-mod' data-mod='"+mods[i]+"'><i class='fa fa-times'></i></a></li>")
 	});
 };
 GAMESYNC.prototype.deleteMod = function(mod){
@@ -94,7 +94,7 @@ GAMESYNC.prototype.refreshWhitelist = function(){
 		var whitelists = JSON.parse(data);
 		$("#white-list").html("");
 		for(var i in whitelists)
-			$("#white-list").append("<li>"+whitelists[i]+"<a href='#' class='delete-whitelist' data-whitelist='"+whitelists[i]+"'><i class='fa fa-times'></i></a></li>")
+			$("#white-list").append("<li title='"+whitelists[i]+"'>"+ls.properListItem(whitelists[i])+"<a href='#' class='delete-whitelist' data-whitelist='"+whitelists[i]+"'><i class='fa fa-times'></i></a></li>")
 	});
 };
 GAMESYNC.prototype.addWhitelist = function(entry){
@@ -103,6 +103,9 @@ GAMESYNC.prototype.addWhitelist = function(entry){
 		ls.refreshWhitelist();
 	});
 };
+GAMESYNC.prototype.properListItem = function(str){
+	return (str.length>43)?str.substring(0,40)+"...":str;
+}
 GAMESYNC.prototype.deleteWhitelist = function(whitelist){
 	$.ajax({
 	  method: "DELETE",
