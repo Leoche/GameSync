@@ -107,7 +107,7 @@ GAMESYNC.prototype.addWhitelist = function(entry){
 	});
 };
 GAMESYNC.prototype.properListItem = function(str){
-	return (str.length>43)?str.substring(0,40)+"...":str;
+	return (str.length>40)?str.substring(0,37)+"...":str;
 }
 GAMESYNC.prototype.deleteWhitelist = function(whitelist){
 	$.ajax({
@@ -115,7 +115,6 @@ GAMESYNC.prototype.deleteWhitelist = function(whitelist){
 	  url: "api/whitelist/"+whitelist
 	}).done(function(data){
 		var res = JSON.parse(data);
-		console.log(res);
 		if(res.code == "401")
 			humane.log("Une erreur s'est produite, vérifier les permissions d'écriture du fichier config/options.json");
 		else 

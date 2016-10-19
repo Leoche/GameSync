@@ -98,7 +98,24 @@ $router->post('/api/whitelist/:folder/:entry', function ($folder, $entry) use ($
     }
     echo json_encode(array("code" => "200"));
 });
+$router->post('/api/whitelist/:folder/:subfolder/:entry', function ($folder, $subfolder, $entry) use ($auth, $config, $session) {
+    if (!$auth->isConnected()) {
+        header("Location: " . ROOT . "login");
+        die();
+    }
+    $entry = $folder . "/" . $subfolder . "/" . $entry;
+    $newwhitelist = $config->get("whitelist");
+    if (!in_array($entry, $newwhitelist)) {
+        $newwhitelist[] = $entry;
+        $config->set("whitelist", $newwhitelist);
+    }
+    echo json_encode(array("code" => "200"));
+});
 $router->delete('/api/whitelist/:entry', function ($entry) use ($auth, $config, $session) {
+    if (!$auth->isConnected()) {
+        header("Location: " . ROOT . "login");
+        die();
+    }
     $newwhitelist = $config->get("whitelist");
     foreach ($newwhitelist as $i => $item)
         if ($item == $entry)
@@ -107,7 +124,24 @@ $router->delete('/api/whitelist/:entry', function ($entry) use ($auth, $config, 
     echo json_encode(array("code" => "200"));
 });
 $router->delete('/api/whitelist/:folder/:entry', function ($folder, $entry) use ($auth, $config, $session) {
+    if (!$auth->isConnected()) {
+        header("Location: " . ROOT . "login");
+        die();
+    }
     $entry = $folder . "/" . $entry;
+    $newwhitelist = $config->get("whitelist");
+    foreach ($newwhitelist as $i => $item)
+        if ($item == $entry)
+            array_splice($newwhitelist, $i, 1);
+    $config->set("whitelist", $newwhitelist);
+    echo json_encode(array("code" => "200"));
+});
+$router->delete('/api/whitelist/:folder/:subfolder/:entry', function ($folder, $subfolder, $entry) use ($auth, $config, $session) {
+    if (!$auth->isConnected()) {
+        header("Location: " . ROOT . "login");
+        die();
+    }
+    $entry = $folder . "/" . $subfolder . "/" . $entry;
     $newwhitelist = $config->get("whitelist");
     foreach ($newwhitelist as $i => $item)
         if ($item == $entry)
@@ -149,6 +183,17 @@ $router->delete('/api/mods/:folder/:entry', function ($folder, $entry) use ($aut
         die();
     }
     $entry = $folder . "/" . $entry;
+    if (@unlink("gamefiles/mods/" . $entry)) {
+        echo json_encode(array("code" => "200"));
+    } else echo json_encode(array("code" => "401"));
+    if (count(scandir("gamefiles/mods/" . $folder)) == 2) rmdir("gamefiles/mods/" . $folder);
+});
+$router->delete('/api/mods/:folder/:subfolder/:entry', function ($folder, $subfolder, $entry) use ($auth, $config, $session) {
+    if (!$auth->isConnected()) {
+        header("Location: " . ROOT . "login");
+        die();
+    }
+    $entry = $folder . "/" . $subfolder . "/" . $entry;
     if (@unlink("gamefiles/mods/" . $entry)) {
         echo json_encode(array("code" => "200"));
     } else echo json_encode(array("code" => "401"));
