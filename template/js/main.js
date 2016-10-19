@@ -52,7 +52,10 @@ jQuery(function($){
 		$(this).html("<i class='fa fa-refresh fa-spin'></i>");
 		var bool = 1;
 		if(ls.online) bool = 0;
-		$.post("api/status/"+bool,function(){
+		$.post("api/status/"+bool,function(res){
+			var res = JSON.parse(res);
+			if(res.code == "401")
+				humane.log("Une erreur s'est produite, vérifier les permissions d'écriture du fichier config/options.json");
 			ls.refreshStatus();
 		});
 	})

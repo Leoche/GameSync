@@ -28,7 +28,7 @@
                 <div class="padded">
                     <div class="spacer"></div>
                     <h1 class="hero">GameSync est en ligne</h1>
-                    <a href="" class="button" id="maintenance">Activer la maintenance</a>
+                    <div class="button" id="maintenance">Activer la maintenance</div>
                 </div>
             </div>
             <div id="pane-2" class="pane">

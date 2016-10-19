@@ -188,6 +188,8 @@ $router->post("/api/status/:bool", function ($bool) use ($auth, $config, $sessio
     if (intval($bool) == 1) $bool = true;
     else $bool = false;
     $config->set("online", $bool);
+    echo json_encode(array("code" => "200"));
+    die();
 });
 
 
