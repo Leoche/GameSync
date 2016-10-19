@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div id="pane-4" class="pane">
-                <div class="padded">
+                <div id="infos" class="padded">
                     <h1>GameSync</h1>
                     <p>GameSync est un outil de déploiement multiplateforme permettant une syncronisation sécurisé entre
                         un logiciel client et un serveur mère.</p>
@@ -63,7 +63,7 @@
                             href="https://github.com/Leoche/GameSync" target="_blank">Github</a> à tous le monde sous
                         license <a href="https://opensource.org/licenses/mit-license.php" target="_blank">MIT</a>.</p>
                     <p>Contact: <a href="http://leoche.org/" target="_blank">Leoche</a></p>
-                    <div class="spacer"></div>
+                    <div class="changepassword button">Changer le mot de passe</div>
                     <p style="text-align: center;">
                         <small>License Id: <?= $config->get("id"); ?></small>
                     </p>
@@ -77,6 +77,21 @@
                                 data-name="Donation"
                         ></script>
                     </p>
+                </div>
+                <div id="passwordchanger" class="padded">
+                    <h1>Mot de passe GameSync</h1>
+                    <form action="">
+                        <label for="pass1" id="pass1-label">Nouveau Mot de passe</label>
+                        <input type="password" name="pass1" placeholder="••••" id="pass1"/>
+                        <div class="spacer"></div>
+                        <label for="pass2" id="pass1-label">Confirmation du Mot de passe</label>
+                        <input type="password" name="pass2" placeholder="••••" id="pass2"/>
+                        <div class="spacer"></div>
+                        <div class="spacer"></div>
+                        <div class="changepassword button pull-left">Annuler</div>
+                        <input type="submit"  class="pull-right" value="Sauvegarder" id="add-whitelist">
+                        <div class="clear"></div>
+                    </form>
                 </div>
             </div>
         </div>

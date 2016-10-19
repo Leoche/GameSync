@@ -38,6 +38,11 @@ jQuery(function($){
 		e.preventDefault();
 		ls.refreshMod();
 	});
+	$(".changepassword").click(function(e){
+		e.preventDefault();
+		$("#pane-4").toggleClass("pane-password");
+		$("#pass1,#pass2").val("");
+	});
 	$("#refresh-whitelists").click(function(e){
 		e.preventDefault();
 		ls.refreshWhitelist();

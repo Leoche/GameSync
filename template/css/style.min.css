@@ -350,7 +350,7 @@ ul li a {
 
 input[type=password],input[type=text] {
 	border: none;
-	width: 280px;
+	width: 300px;
 	height: 48px;
 	padding: 0 15px;
 	border-radius: 3px;
@@ -371,7 +371,7 @@ input[type=password]:focus,input[type=text]:focus {
 input[type=submit] {
 	border: none;
 	width: 160px;
-	height: 48px;
+	height: 40px;
 	border-radius: 3px;
 	color: #fefefe;
 	font-size: 20px;
@@ -435,7 +435,11 @@ input[type=submit]:active {
 	color: #aaa;
 	border-bottom: 5px solid transparent;
 	transition: color .2s,border .2s;
-	cursor: pointer
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;   
+	-ms-user-select: none;    
+	user-select: none
 }
 
 #menu a.active,#menu a.active:hover {
@@ -553,6 +557,24 @@ input[type=submit]:active {
 
 #pane-1.offline #line1:after,#pane-1.offline #line2:after,#pane-1.offline #line3:after {
 	animation: none!important
+}
+#pane-4>div{
+	transition: .2s height;
+	height:100%;
+}
+
+#pane-4 #passwordchanger{
+	height: 0;
+	overflow: hidden;
+	background: #FEFEFE;
+	position: relative;
+}
+#pane-4.pane-password #infos{
+	height:0;
+	overflow: hidden;
+}
+#pane-4.pane-password #passwordchanger{
+	height:100%;
 }
 
 @keyframes move {
