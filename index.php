@@ -237,6 +237,19 @@ $router->post("/api/status/:bool", function ($bool) use ($auth, $config, $sessio
     die();
 });
 
+/* MISC */
+$router->post("/api/changepassword/:newpass/:newpass2", function ($newpass, $newpass2) use ($auth, $config, $session) {
+    if (!$auth->isConnected()) {
+        header("Location: " . ROOT . "login");
+        die();
+    }
+    if($newpass != $newpass2) die(json_encode(array("code" => "600", "message" => "Ces mot de passes ne correspondent pas!")));
+    if(strlen($newpass) < 6) die(json_encode(array("code" => "600", "message" => "Votre nouveau mot de passe est trop court! (<7 caractères)")));
+    $config->changePassword($newpass);
+    echo json_encode(array("code" => "200"));
+    die();
+});
+
 
 $router->get("/api/status", function () use ($auth, $config, $session) {
     if (!$auth->isConnected()) {

@@ -67,6 +67,24 @@ jQuery(function($){
 		e.preventDefault();
 		ls.deleteWhitelist($(this).attr("data-whitelist"));
 	});
+	$("#passwordchanger-form").submit(function(e){
+		e.preventDefault();
+		$pass1 = $("#pass1").val();
+		$pass2 = $("#pass2").val();
+		if($pass1 != $pass2) return humane.log("Ces mot de passes ne correspondent pas!");
+		if($pass1.length<6) return humane.log("Votre nouveau mot de passe est trop court! (<7 caractères)");
+		$.post("api/changepassword/"+$pass1+"/"+$pass2,function(res){
+			var res = JSON.parse(res);
+			if(res.code == "401")
+				humane.log("Une erreur s'est produite, vérifier les permissions d'écriture du fichier config/options.json");
+			else if(res.code == "600")
+				humane.log(res.message);
+			if(res.code == "200"){
+				$("#pane-4").toggleClass("pane-password");
+				humane.log("Votre mot de passe vient d'être changé!");
+			}
+		});
+	})
 });
 
 function GAMESYNC(){

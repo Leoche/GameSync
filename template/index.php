@@ -80,7 +80,7 @@
                 </div>
                 <div id="passwordchanger" class="padded">
                     <h1>Mot de passe GameSync</h1>
-                    <form action="">
+                    <form action="" id="passwordchanger-form">
                         <label for="pass1" id="pass1-label">Nouveau Mot de passe</label>
                         <input type="password" name="pass1" placeholder="••••" id="pass1"/>
                         <div class="spacer"></div>

@@ -38,6 +38,13 @@ class Config
         return true;
     }
 
+    public function changePassword($newpassword)
+    {
+        $this->config->users[0]->password = password_hash($newpassword, PASSWORD_BCRYPT);
+        $this->save();
+        return true;
+    }
+
     public function isInitialized()
     {
         return $this->initialized;
