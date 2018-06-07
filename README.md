@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="https://leoche.org/gsdemo/template/imgs/logo.png" alt="GameSync Logo"><br/>
+	<img src="./template/imgs/logo.png" alt="GameSync Logo"><br/>
 	<h1>GameSync</h1>
 </p>
 
