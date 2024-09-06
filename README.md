@@ -3,7 +3,7 @@
 	<h1>GameSync</h1>
 </p>
 
-GameSync is a multiplateform deployment tool that provide a secured syncronisation between client/server with a JSON end-point.
+GameSync is a multiplatform deployment tool that provide a secured syncronisation between client/server with a JSON end-point.
 
 ## Installation
 * Unzip master folder to your webserver (ex: domain.com/gamesync/).
